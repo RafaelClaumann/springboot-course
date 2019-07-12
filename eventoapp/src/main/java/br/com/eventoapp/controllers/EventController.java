@@ -7,6 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.ModelAndView;
+
+import java.util.List;
 
 @Controller
 public class EventController {
@@ -20,7 +23,7 @@ public class EventController {
     /*
      * This method will return a form to register an event.
      * */
-    @RequestMapping(value = "/registerEvent", method = RequestMethod.GET)
+    @RequestMapping(value = "EventRegister", method = RequestMethod.GET)
     public String form() {
         return "event/FormEvent";
     }
@@ -28,9 +31,17 @@ public class EventController {
     /*
      * This method will save an event form in MySQL database.
      * */
-    @RequestMapping(value = "/registerEvent", method = RequestMethod.POST)
+    @RequestMapping(value = "/EventRegister", method = RequestMethod.POST)
     public String form(Event event) {
         eventRepositoryJpa.saveAndFlush(event);
-        return "redirect:/registerEvent";
+        return "redirect:/EventRegister";
+    }
+
+    @RequestMapping("/Events")
+    public ModelAndView listEvents() {
+        ModelAndView mv = new ModelAndView("Index");
+        List<Event> events = eventRepositoryJpa.findAll();
+        mv.addObject("events", events);  // event need to be the same name in Index.html
+        return mv;
     }
 }

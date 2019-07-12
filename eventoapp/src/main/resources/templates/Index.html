@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Event App</title>
+</head>
+<body>
+<h1>List Events</h1>
+<h3><a href="/EventRegister"></a></h3>
+
+<div th:each="event : ${events}">
+    <div class="row">
+        <p><span th:text="${'name: ' + event.getname()}"></span></p>
+        <p><span th:text="${'place: ' + event.getplace()}"></span></p>
+        <p><span th:text="${'date: ' + #dates.format(event.getdate(), 'dd/MM/yyy')}"></span></p>
+    </div>
+</div>
+</body>
+</html>
