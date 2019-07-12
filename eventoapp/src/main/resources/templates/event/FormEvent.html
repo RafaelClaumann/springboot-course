@@ -1,20 +1,29 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
 
 <head>
     <meta charset="UTF-8">
     <title>Event Register</title>
+    <div th:replace="fragments/MaterializeFragment :: materializeHeadImports"></div>
 </head>
 
 <body>
     <h1>Event Register</h1>
-    <form method="post">
-        Name: <input type="text" value="" name="name">
-        Place: <input type="text" value="" name="place">
-        Date: <input type="date" value="" name="date"/>
+    <h3>
+        <a href="/Events" class="waves-effect waves-light btn">
+            <i class="material-icons left">format_list_bulleted</i> Events List
+        </a>
+    </h3>
 
-        <button type="submit"> Save Event</button>
+    <form class="container" method="post">
+        Name: <input type="text" value="" name="name">
+        <div class="row">
+            <div class="input-field col s6"> Place: <input type="text" value="" name="place"> </div>
+            <div class="input-field col s3"> Date: <input type="date" value="" name="date"/></div>
+        </div>
+        <button class="waves-effect waves-light btn" type="submit"> Save Event</button>
     </form>
+    <div th:replace="fragments/MaterializeFragment :: materializeBodyImports"></div>
 </body>
 
 </html>
