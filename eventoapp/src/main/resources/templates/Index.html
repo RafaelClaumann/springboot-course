@@ -26,7 +26,13 @@
         <tbody>
             <tr th:each="event : ${events}">
                 <div class="row">
-                    <td><span th:text="${event.getname()}"></span></td>
+                    <td>
+                        <!--EC is EventController initial letters.-->
+                        <!--eventDetails is the action from EventController-->
+                        <a th:href="${(#mvc.url('EC#eventDetails').arg(0, event.getEvent_pk())).build()}">
+                            <span th:text="${event.getname()}"></span>
+                        </a>
+                    </td>
                     <td><span th:text="${event.getplace()}"></span></td>
                     <td><span th:text="${#dates.format(event.getdate(), 'dd/MM/yyy')}"></span></td>
                 </div>

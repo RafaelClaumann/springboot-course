@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Event Details</title>
+    <div th:replace="fragments/MaterializeFragment :: materializeHeadImports"></div>
+</head>
+
+<body>
+    <h1>Event</h1>
+    <h3>
+        <a href="/Events" class="waves-effect waves-light btn">
+            <i class="material-icons left">add_circle_outline</i> Events List
+        </a>
+    </h3>
+
+    <div th:each="event : ${event}" class="container">
+        <div class="row">
+            <p> Name: <span th:text="${event.getname()}"></span> </p>
+            <p> Place: <span th:text="${event.getplace()}"></span> </p>
+            <p> Date: <span th:text="${event.getdate()}"></span> </p>
+        </div>
+    </div>
+
+    <div th:replace="fragments/MaterializeFragment :: materializeBodyImports"></div>
+</body>
+
+</html>

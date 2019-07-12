@@ -28,6 +28,10 @@ public class Event {
     @NotNull(message = "IT IS NECESSARY TO SET A DATE.")
     private Date date;
 
+    public long getEvent_pk() {
+        return event_pk;
+    }
+
     public String getname() {
         return name;
     }
