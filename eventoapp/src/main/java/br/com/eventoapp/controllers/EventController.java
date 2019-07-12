@@ -12,26 +12,25 @@ import org.springframework.web.bind.annotation.RequestMethod;
 public class EventController {
 
     @Autowired
-    private EventRepositoryCrud eventRepositoryCrud;
+    private EventRepositoryCrud eventRepositoryCrud;  // Not in use at this moment.
 
     @Autowired
     private EventRepositoryJpa eventRepositoryJpa;
 
     /*
-    * This method will return a form to register an event.
-    * */
+     * This method will return a form to register an event.
+     * */
     @RequestMapping(value = "/registerEvent", method = RequestMethod.GET)
     public String form() {
         return "event/FormEvent";
     }
 
     /*
-    * This method will save an event in MySQL database.
-    * */
+     * This method will save an event form in MySQL database.
+     * */
     @RequestMapping(value = "/registerEvent", method = RequestMethod.POST)
     public String form(Event event) {
         eventRepositoryJpa.saveAndFlush(event);
-        // eventRepositoryCrud.save(event);
         return "redirect:/registerEvent";
     }
 }

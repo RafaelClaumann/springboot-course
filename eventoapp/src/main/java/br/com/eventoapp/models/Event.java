@@ -16,16 +16,16 @@ public class Event {
     private long event_pk;
 
     @Column(name = "evn_name", length = 50, nullable = false)
-    @NotEmpty(message = "É OBRIGATÓRIO NOMEAR O EVENTO.")
+    @NotEmpty(message = "IT IS NECESSARY TO SET AN EVENT NAME.")
     private String name;
 
     @Column(name = "evn_place", length = 100, nullable = false)
-    @NotEmpty(message = "É OBRIGATÓRIO NOMEAR O LUGAR DO EVENTO.")
+    @NotEmpty(message = "IT IS NECESSARY TO SET AN EVENT PLACE.")
     private String place;
 
     @Column(name = "evn_date", nullable = false)
     @DateTimeFormat(pattern = "yyyy-MM-dd")  // Need to change data format, if not, a exception will happen.
-    @NotNull(message = "É OBRIGATÓRIO DEFINIR UMA DATA PARA O EVENTO.")
+    @NotNull(message = "IT IS NECESSARY TO SET A DATE.")
     private Date date;
 
     public String getname() {

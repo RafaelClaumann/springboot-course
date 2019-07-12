@@ -1,4 +1,10 @@
 /*
+
+********* THESE SETTINGS ARE MADE IN APPLICATION.PROPERTIES FILE! *********
+********* THESE SETTINGS ARE MADE IN APPLICATION.PROPERTIES FILE! *********
+********* THESE SETTINGS ARE MADE IN APPLICATION.PROPERTIES FILE! *********
+********* THESE SETTINGS ARE MADE IN APPLICATION.PROPERTIES FILE! *********
+
 package br.com.eventoapp;
 
 import org.springframework.context.annotation.Bean;
