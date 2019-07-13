@@ -6,6 +6,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table(name = "evn_event")
@@ -13,7 +14,7 @@ public class Event {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private long event_pk;
+    private long evn_pk;
 
     @Column(name = "evn_name", length = 50, nullable = false)
     @NotEmpty(message = "IT IS NECESSARY TO SET AN EVENT NAME.")
@@ -28,8 +29,12 @@ public class Event {
     @NotNull(message = "IT IS NECESSARY TO SET A DATE.")
     private Date date;
 
+    // One event to many guests.
+    @OneToMany
+    private List<Guest> guests;
+
     public long getEvent_pk() {
-        return event_pk;
+        return evn_pk;
     }
 
     public String getname() {
