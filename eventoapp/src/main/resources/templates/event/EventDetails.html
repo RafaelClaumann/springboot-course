@@ -15,7 +15,7 @@
         </a>
     </h3>
 
-    <div th:each="event : ${event}" class="container">
+    <div th:each="event : ${eventHTML}" class="container">
         <div class="row">
             <p> Name: <span th:text="${event.getname()}"></span> </p>
             <p> Place: <span th:text="${event.getplace()}"></span> </p>

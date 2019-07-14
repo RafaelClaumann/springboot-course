@@ -1,1 +1,0 @@
-  - Aceitar requisição /eventregister ou /EventRegister, isto é, ignorar se é lower ou upper case.

@@ -25,7 +25,7 @@ public class Event {
     private String place;
 
     @Column(name = "evn_date", nullable = false)
-    @DateTimeFormat(pattern = "yyyy-MM-dd")  // Need to change data format, if not, a exception will happen.
+    @DateTimeFormat(pattern = "yyyy-MM-dd")  // Necessary to change data format, if not, a exception will happen.
     @NotNull(message = "IT IS NECESSARY TO SET A DATE.")
     private Date date;
 

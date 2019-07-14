@@ -1,8 +1,10 @@
 package br.com.eventoapp.controllers;
 
 import br.com.eventoapp.models.Event;
+import br.com.eventoapp.models.Guest;
 import br.com.eventoapp.repository.EventRepositoryCrud;
 import br.com.eventoapp.repository.EventRepositoryJpa;
+import br.com.eventoapp.repository.GuestRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -21,8 +23,14 @@ public class EventController {
     @Autowired
     private EventRepositoryJpa eventRepositoryJpa;
 
+    @Autowired
+    private GuestRepository guestRepository;
+
     /*
-     * This method will return a form to register an event.
+     * This method will return a html form to fill with event data.
+     * @FormEvent.html are in /src/main/resources/templates/event
+     * see also @form(Event event).
+     *
      * */
     @RequestMapping(value = "EventRegister", method = RequestMethod.GET)
     public String form() {
@@ -30,27 +38,53 @@ public class EventController {
     }
 
     /*
-     * This method will save an event form in MySQL database.
+     * This method will record an event in DataBase table evn_event, event data are filled in a form.
+     * Then will redirect to @form().
+     * see also @form().
      * */
-    @RequestMapping(value = "/EventRegister", method = RequestMethod.POST)
+    @RequestMapping(value = "EventRegister", method = RequestMethod.POST)
     public String form(Event event) {
         eventRepositoryJpa.saveAndFlush(event);
         return "redirect:/EventRegister";
     }
 
-    @RequestMapping("/Events")
+    /*
+     * This method will list events recorded in the database.
+     * @Index html are in /src/main/resources/templates
+     * @eventsHTML is a variable that will be accessed in @Index.html
+     *
+     * */
+    @RequestMapping(value = {"/Events", "/events"})
     public ModelAndView listEvents() {
         ModelAndView mv = new ModelAndView("Index");
         List<Event> events = eventRepositoryJpa.findAll();
-        mv.addObject("events", events);  // event need to be the same name in Index.html
+        mv.addObject("eventsHTML", events);  // event need to be the same name in Index.html
         return mv;
     }
 
-    @RequestMapping("/{event_pk}")
-    public ModelAndView eventDetails(@PathVariable("event_pk") long event_pk) {
-        Event event = eventRepositoryJpa.getOne(event_pk);
+    /*
+     * This method will open a link that contains details of specified event, links are based in events primary key.
+     * @EventDetails.html is in /src/main/resources/templates/event
+     * @eventHTML is a variable that will be accessed in EventDetails.html
+     *
+     * */
+    @RequestMapping(value = "/{event_pk}", method = RequestMethod.GET)
+    public ModelAndView eventDetailsGet(@PathVariable("event_pk") long evn_pk) {
+        Event event = eventRepositoryJpa.getOne(evn_pk);
         ModelAndView mv = new ModelAndView("event/EventDetails");
-        mv.addObject("event", event);
+        mv.addObject("eventHTML", event);
         return mv;
+    }
+
+    /*
+     * This method will set an @event for a specific @guest and save it on gst_guest DB table.
+     *
+     * */
+    @RequestMapping(value = "/{event_pk}", method = RequestMethod.POST)
+    public String eventDetailsPost(@PathVariable("event_pk") long evn_pk, Guest guest) {
+        Event event = eventRepositoryJpa.getOne(evn_pk);
+        guest.setEvent(event);
+        guestRepository.saveAndFlush(guest);
+        return "redirect:/{event_pk}";
     }
 }
