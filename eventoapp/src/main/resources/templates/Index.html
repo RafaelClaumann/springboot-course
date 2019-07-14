@@ -30,11 +30,11 @@
                         <!--EC is EventController initial letters.-->
                         <!--eventDetails is the action from EventController-->
                         <a th:href="${(#mvc.url('EC#eventDetailsGet').arg(0, event.getEvent_pk())).build()}">
-                            <span th:text="${event.getname()}"></span>
+                            <span th:text="${event.getName()}"></span>
                         </a>
                     </td>
-                    <td><span th:text="${event.getplace()}"></span></td>
-                    <td><span th:text="${#dates.format(event.getdate(), 'MM/dd/yyy')}"></span></td>
+                    <td><span th:text="${event.getPlace()}"></span></td>
+                    <td><span th:text="${#dates.format(event.getDate(), 'MM/dd/yyy')}"></span></td>
                 </div>
             </tr>
         </tbody>

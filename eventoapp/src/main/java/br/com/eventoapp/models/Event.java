@@ -37,27 +37,27 @@ public class Event {
         return evn_pk;
     }
 
-    public String getname() {
+    public String getName() {
         return name;
     }
 
-    public void setname(String name) {
+    public void setName(String name) {
         this.name = name;
     }
 
-    public String getplace() {
+    public String getPlace() {
         return place;
     }
 
-    public void setplace(String place) {
+    public void setPlace(String place) {
         this.place = place;
     }
 
-    public Date getdate() {
+    public Date getDate() {
         return date;
     }
 
-    public void setdate(Date date) {
+    public void setDate(Date date) {
         this.date = date;
     }
 }

@@ -17,16 +17,29 @@
 
     <div th:each="event : ${eventHTML}" class="container">
         <div class="row">
-            <p> Name: <span th:text="${event.getname()}"></span> </p>
-            <p> Place: <span th:text="${event.getplace()}"></span> </p>
-            <p> Date: <span th:text="${event.getdate()}"></span> </p>
+            <p> Name: <span th:text="${event.getName()}"></span> </p>
+            <p> Place: <span th:text="${event.getPlace()}"></span> </p>
+            <p> Date: <span th:text="${event.getDate()}"></span> </p>
         </div>
 
         <form method="post">
-            Guest Name: <input type="text" value="" name="guestName">
+            Guest Name: <input type="text" value="" name="name">
             Guest RG: <input type="text" value="" name="rg">
             <button class="waves-effect waves-light btn" type="submit">Add Guest</button>
         </form>
+    </div>
+
+    <h5> Guests List </h5>
+    <div class="container" th:each="guest : ${guestsHTML}">
+        <div class="row">
+            <div class="input-field col s6" >
+                <p><span th:text="${guest.getName()}"></span></p>
+            </div>
+
+            <div class="input-field col s3" >
+                <p><span th:text="${guest.getRg()}"></span></p>
+            </div>
+        </div>
     </div>
 
     <div th:replace="fragments/MaterializeFragment :: materializeBodyImports"></div>

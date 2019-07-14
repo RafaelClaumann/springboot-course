@@ -63,9 +63,12 @@ public class EventController {
     }
 
     /*
-     * This method will open a link that contains details of specified event, links are based in events primary key.
+     * This method will open a link that contains details of specified event, links are based in event primary key.
      * @EventDetails.html is in /src/main/resources/templates/event
      * @eventHTML is a variable that will be accessed in EventDetails.html
+     *
+     * @List<Guest> guests, after guests.removeIf() this list will contain only guests of specific @event object.
+     * @guestsHTML is a list that will be accessed in EventDetails.html
      *
      * */
     @RequestMapping(value = "/{event_pk}", method = RequestMethod.GET)
@@ -73,6 +76,12 @@ public class EventController {
         Event event = eventRepositoryJpa.getOne(evn_pk);
         ModelAndView mv = new ModelAndView("event/EventDetails");
         mv.addObject("eventHTML", event);
+
+        List<Guest> guests = guestRepository.findAll();
+        guests.removeIf(guest -> !(guest.getEvent().equals(event)));
+        // guests.removeIf(guest -> guest.getEvent().getEvent_pk() == event.getEvent_pk());
+
+        mv.addObject("guestsHTML", guests);
         return mv;
     }
 

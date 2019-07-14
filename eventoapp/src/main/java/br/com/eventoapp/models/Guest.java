@@ -17,7 +17,7 @@ public class Guest {
 
     @Column(name = "gst_name", length = 100, nullable = false)
     @NotEmpty(message = "IT IS NECESSARY TO SET A GUEST NAME.")
-    private String guestName;
+    private String name;
 
     //  Many guests to one event.
     @ManyToOne
@@ -35,12 +35,12 @@ public class Guest {
         this.rg = rg;
     }
 
-    public String getGuestName() {
-        return guestName;
+    public String getName() {
+        return name;
     }
 
-    public void setGuestName(String guestName) {
-        this.guestName = guestName;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public Event getEvent() {
