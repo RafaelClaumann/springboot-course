@@ -17,16 +17,16 @@ public class Event {
     private long evn_pk;
 
     @Column(name = "evn_name", length = 50, nullable = false)
-    @NotEmpty(message = "IT IS NECESSARY TO SET AN EVENT NAME.")
+    @NotEmpty
     private String name;
 
     @Column(name = "evn_place", length = 100, nullable = false)
-    @NotEmpty(message = "IT IS NECESSARY TO SET AN EVENT PLACE.")
+    @NotEmpty
     private String place;
 
     @Column(name = "evn_date", nullable = false)
     @DateTimeFormat(pattern = "yyyy-MM-dd")  // Necessary to change data format, if not, an exception will happen.
-    @NotNull(message = "IT IS NECESSARY TO SET A DATE.")
+    @NotNull
     private Date date;
 
     // One event to many guests.

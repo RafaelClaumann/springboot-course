@@ -4,20 +4,30 @@
 <head>
     <meta charset="UTF-8">
     <title>Event Register</title>
-    <th:block th:replace="fragments/MaterializeFragment :: materializeHeadImports"></th:block>
+    <th:block th:replace="fragments/MaterializeImportFrag :: materializeHeadImports"></th:block>
+    <link rel="stylesheet" href="/style/StyleCss.css"/>
 </head>
 
 <body>
-    <h1>Event Register</h1>
-    <h3>
-        <a href="/Events" class="waves-effect waves-light btn">
-            <i class="material-icons left">format_list_bulleted</i> Events List
-        </a>
-    </h3>
+    <header>
+        <nav class="blue accent-4">
+            <div class="nav-wrapper">
+                <a href="/Events" class="brand-logo"> Event Register</a>
+                <ul id="nav-mobile" class="right hide-on-med-and-down">
+                    <li>
+                        <a href="/Events" class="waves-effect waves-light btn">
+                            <i class="material-icons left"> format_list_bulleted </i> Events List
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+    </header>
 
-    <th:block th:include="fragments/ValidationMessageFragment"></th:block>
 
-    <form class="container" method="post">
+    <th:block th:include="fragments/ValidationMessageFrag"></th:block>
+
+    <form class="container formEventStyle" method="post">
         Name: <input type="text" value="" name="name">
         <div class="row">
             <div class="input-field col s6"> Place: <input type="text" value="" name="place"> </div>
@@ -26,7 +36,7 @@
         <button class="waves-effect waves-light btn" type="submit"> Save Event </button>
     </form>
 
-    <th:block th:replace="fragments/MaterializeFragment :: materializeBodyImports"></th:block>
+    <th:block th:replace="fragments/MaterializeImportFrag :: materializeBodyImports"></th:block>
 </body>
 
 </html>

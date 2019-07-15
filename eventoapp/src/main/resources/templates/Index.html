@@ -4,18 +4,26 @@
 <head>
     <meta charset="UTF-8">
     <title>Events</title>
-    <th:block th:replace="fragments/MaterializeFragment :: materializeHeadImports"></th:block>
-    <!--<div th:replace="fragments/MaterializeFragment :: materializeHeadImports"></div>-->
+    <th:block th:replace="fragments/MaterializeImportFrag :: materializeHeadImports"></th:block>
+    <link rel="stylesheet" href="/style/StyleCss.css"/>
 </head>
 
 <body>
-    <h1>Events List</h1>
-    <h3>
-        <a href="/EventRegister" class="waves-effect waves-red btn">
-            <i class="material-icons left"> cloud </i> Event Register
-        </a>
-    </h3>
-    <table class="container">
+    <header>
+        <nav class="blue accent-4">
+            <div class="nav-wrapper">
+                <a href="/Events" class="brand-logo"> Event List</a>
+                <ul id="nav-mobile" class="right hide-on-med-and-down">
+                    <li>
+                        <a href="/EventRegister" class="waves-effect waves-light btn">
+                            <i class="material-icons left"> cloud </i> Event Register
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+    <table class="container eventListStyle">
         <thead>
             <tr>
                 <th>Name</th>
@@ -23,13 +31,12 @@
                 <th>Date</th>
             </tr>
         </thead>
-
         <tbody>
             <tr th:each="event : ${eventsHTML}">
                 <div class="row">
+                    <!-- EC is EventController initial letters. -->
+                    <!-- eventDetailsGet is the action from EventController. -->
                     <td>
-                        <!--EC is EventController initial letters.-->
-                        <!--eventDetails is the action from EventController-->
                         <a th:href="${(#mvc.url('EC#eventDetailsGet').arg(0, event.getEvent_pk())).build()}">
                             <span th:text="${event.getName()}"></span>
                         </a>
@@ -40,8 +47,8 @@
             </tr>
         </tbody>
     </table>
-    <th:block th:replace="fragments/MaterializeFragment :: materializeBodyImports"></th:block>
-    <!--<div th:replace="fragments/MaterializeFragment :: materializeBodyImports"></div>-->
+
+    <th:block th:replace="fragments/MaterializeImportFrag :: materializeBodyImports"></th:block>
 </body>
 
 </html>

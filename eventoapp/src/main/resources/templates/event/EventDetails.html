@@ -4,26 +4,37 @@
 <head>
     <meta charset="UTF-8">
     <title>Event Details</title>
-    <th:block th:replace="fragments/MaterializeFragment :: materializeHeadImports"></th:block>
+    <th:block th:replace="fragments/MaterializeImportFrag :: materializeHeadImports"></th:block>
+    <link rel="stylesheet" href="/style/StyleCss.css"/>
 </head>
 
 <body>
-    <h1>Event</h1>
-    <h3>
-        <a href="/Events" class="waves-effect waves-light btn">
-            <i class="material-icons left">add_circle_outline</i> Events List
-        </a>
-    </h3>
+    <header>
+        <nav class="blue accent-4">
+            <div class="nav-wrapper">
+                <a href="/Events" class="brand-logo"> Event Details</a>
+                <ul id="nav-mobile" class="right hide-on-med-and-down">
+                    <li>
+                        <a href="/Events" class="waves-effect waves-light btn">
+                            <i class="material-icons left"> format_list_bulleted </i> Events List
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+    </header>
 
-    <div th:each="event : ${eventHTML}" class="container">
+    <div th:each="event : ${eventHTML}" class="container eventDetailsStyle">
         <div class="row">
             <p> Name: <span th:text="${event.getName()}"></span> </p>
             <p> Place: <span th:text="${event.getPlace()}"></span> </p>
             <p> Date: <span th:text="${event.getDate()}"></span> </p>
         </div>
+    </div>
 
-        <th:block th:include="fragments/ValidationMessageFragment"></th:block>
+    <th:block th:include="fragments/ValidationMessageFrag"></th:block>
 
+    <div class="container guestFormStyle">
         <form method="post">
             Guest Name: <input type="text" value="" name="name">
             Guest RG: <input type="text" value="" name="rg">
@@ -31,20 +42,22 @@
         </form>
     </div>
 
-    <h5> Guests List </h5>
-    <div class="container" th:each="guest : ${guestsHTML}">
-        <div class="row">
-            <div class="input-field col s6" >
-                <p><span th:text="${guest.getName()}"></span></p>
-            </div>
+    <table class="container guestTableStyle">
+        <thead>
+            <tr>
+                <th>Guest Name: </th>
+                <th>Guest RG:</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="guest : ${guestsHTML}">
+                <td>  <span th:text="${guest.getName()}"></span>  </td>
+                <td>  <span th:text="${guest.getRg()}"></span>  </td>
+            </tr>
+        </tbody>
+    </table>
 
-            <div class="input-field col s3" >
-                <p><span th:text="${guest.getRg()}"></span></p>
-            </div>
-        </div>
-    </div>
-
-    <th:block th:replace="fragments/MaterializeFragment :: materializeBodyImports"></th:block>
+    <th:block th:replace="fragments/MaterializeImportFrag :: materializeBodyImports"></th:block>
 </body>
 
 </html>

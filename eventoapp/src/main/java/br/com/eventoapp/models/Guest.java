@@ -12,11 +12,11 @@ public class Guest {
     private long gst_pk;
 
     @Column(name = "gst_rg", length = 50, nullable = false, unique = true)
-    @NotEmpty(message = "IT IS NECESSARY TO SET A GUEST RG.")
+    @NotEmpty
     private String rg;
 
     @Column(name = "gst_name", length = 100, nullable = false)
-    @NotEmpty(message = "IT IS NECESSARY TO SET A GUEST NAME.")
+    @NotEmpty
     private String name;
 
     //  Many guests to one event.
