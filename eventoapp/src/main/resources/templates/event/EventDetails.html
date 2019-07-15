@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Event Details</title>
-    <div th:replace="fragments/MaterializeFragment :: materializeHeadImports"></div>
+    <th:block th:replace="fragments/MaterializeFragment :: materializeHeadImports"></th:block>
 </head>
 
 <body>
@@ -21,6 +21,8 @@
             <p> Place: <span th:text="${event.getPlace()}"></span> </p>
             <p> Date: <span th:text="${event.getDate()}"></span> </p>
         </div>
+
+        <th:block th:include="fragments/ValidationMessageFragment"></th:block>
 
         <form method="post">
             Guest Name: <input type="text" value="" name="name">
@@ -42,7 +44,7 @@
         </div>
     </div>
 
-    <div th:replace="fragments/MaterializeFragment :: materializeBodyImports"></div>
+    <th:block th:replace="fragments/MaterializeFragment :: materializeBodyImports"></th:block>
 </body>
 
 </html>

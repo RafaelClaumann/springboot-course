@@ -4,30 +4,33 @@ import br.com.eventoapp.models.Event;
 import br.com.eventoapp.models.Guest;
 import br.com.eventoapp.repository.EventRepositoryCrud;
 import br.com.eventoapp.repository.EventRepositoryJpa;
-import br.com.eventoapp.repository.GuestRepository;
+import br.com.eventoapp.repository.GuestRepositoryJpa;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @Controller
 public class EventController {
 
     @Autowired
-    private EventRepositoryCrud eventRepositoryCrud;  // Not in use at this moment.
+    private EventRepositoryCrud eventRepositoryCrud;  // Using JpaRepository instead of CrudRepository.
 
     @Autowired
     private EventRepositoryJpa eventRepositoryJpa;
 
     @Autowired
-    private GuestRepository guestRepository;
+    private GuestRepositoryJpa guestRepositoryJpa;
 
     /*
-     * This method will return a html form to fill with event data.
+     * This method will return a html form to be filled with event data.
      * @FormEvent.html are in /src/main/resources/templates/event
      * see also @form(Event event).
      *
@@ -38,13 +41,21 @@ public class EventController {
     }
 
     /*
-     * This method will record an event in DataBase table evn_event, event data are filled in a form.
-     * Then will redirect to @form().
-     * see also @form().
+     * This method will record an event in DataBase table evn_event and redirect to @form().
+     * See also @form().
+     *
+     * se tiver algum erro, entao envia a msg e redireciona para o formulario de cadastras evento(metodo get anterior)
+     * se der tdo certo ele grava no banco e notifica com um msg.
+     *
      * */
     @RequestMapping(value = "EventRegister", method = RequestMethod.POST)
-    public String form(Event event) {
-        eventRepositoryJpa.saveAndFlush(event);
+    public String form(@Valid Event event, BindingResult result, RedirectAttributes attributes) {
+        if (result.hasErrors()) {
+            attributes.addFlashAttribute("messageHTML", "Verify fields.");
+            return "redirect:/EventRegister";
+        }
+        eventRepositoryJpa.saveAndFlush(event);  // save event in DB
+        attributes.addFlashAttribute("messageHTML", "Event added.");
         return "redirect:/EventRegister";
     }
 
@@ -56,9 +67,9 @@ public class EventController {
      * */
     @RequestMapping(value = {"/Events", "/events"})
     public ModelAndView listEvents() {
-        ModelAndView mv = new ModelAndView("Index");
-        List<Event> events = eventRepositoryJpa.findAll();
-        mv.addObject("eventsHTML", events);  // event need to be the same name in Index.html
+        ModelAndView mv = new ModelAndView("Index");  // set current view
+        List<Event> events = eventRepositoryJpa.findAll();  // fetch all events from DB
+        mv.addObject("eventsHTML", events);  // send events list to a view
         return mv;
     }
 
@@ -67,33 +78,41 @@ public class EventController {
      * @EventDetails.html is in /src/main/resources/templates/event
      * @eventHTML is a variable that will be accessed in EventDetails.html
      *
-     * @List<Guest> guests, after guests.removeIf() this list will contain only guests of specific @event object.
+     * @List<Guest> guests, after guests.removeIf() this list will contain only guests of a specific @event object.
      * @guestsHTML is a list that will be accessed in EventDetails.html
      *
      * */
     @RequestMapping(value = "/{event_pk}", method = RequestMethod.GET)
     public ModelAndView eventDetailsGet(@PathVariable("event_pk") long evn_pk) {
-        Event event = eventRepositoryJpa.getOne(evn_pk);
-        ModelAndView mv = new ModelAndView("event/EventDetails");
-        mv.addObject("eventHTML", event);
+        Event event = eventRepositoryJpa.getOne(evn_pk);  // getOne event from DB
+        ModelAndView mv = new ModelAndView("event/EventDetails");  // set current view
+        mv.addObject("eventHTML", event);  // send event to a view
 
-        List<Guest> guests = guestRepository.findAll();
-        guests.removeIf(guest -> !(guest.getEvent().equals(event)));
-        // guests.removeIf(guest -> guest.getEvent().getEvent_pk() == event.getEvent_pk());
+        List<Guest> guests = guestRepositoryJpa.findAll();  // get all guests from DB to a list
+        guests.removeIf(guest -> !(guest.getEvent().equals(event)));  // clear list based on current @event
 
-        mv.addObject("guestsHTML", guests);
+        mv.addObject("guestsHTML", guests); // send guest list to a view
         return mv;
     }
 
     /*
      * This method will set an @event for a specific @guest and save it on gst_guest DB table.
+     * @MessageHTML is a variable, this variable is accessed in a thymeleaf block at EventDetails.html.
+     * @EventDetails.html are in /src/main/resourcers/templates/event
      *
      * */
     @RequestMapping(value = "/{event_pk}", method = RequestMethod.POST)
-    public String eventDetailsPost(@PathVariable("event_pk") long evn_pk, Guest guest) {
-        Event event = eventRepositoryJpa.getOne(evn_pk);
-        guest.setEvent(event);
-        guestRepository.saveAndFlush(guest);
+    public String eventDetailsPost(@PathVariable("event_pk") long evn_pk, @Valid Guest guest,
+                                   BindingResult result, RedirectAttributes attributes) {
+        if (result.hasErrors()) {
+            attributes.addFlashAttribute("messageHTML", "Verify fields.");
+            return "redirect:/{event_pk}";
+        }
+
+        Event event = eventRepositoryJpa.getOne(evn_pk);  // fetch one event from DB
+        guest.setEvent(event);  // set the event to a guest
+        guestRepositoryJpa.saveAndFlush(guest);  // push this guest to DB
+        attributes.addFlashAttribute("messageHTML", "Guest added!");  // success message
         return "redirect:/{event_pk}";
     }
 }

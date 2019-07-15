@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Event Register</title>
-    <div th:replace="fragments/MaterializeFragment :: materializeHeadImports"></div>
+    <th:block th:replace="fragments/MaterializeFragment :: materializeHeadImports"></th:block>
 </head>
 
 <body>
@@ -15,6 +15,8 @@
         </a>
     </h3>
 
+    <th:block th:include="fragments/ValidationMessageFragment"></th:block>
+
     <form class="container" method="post">
         Name: <input type="text" value="" name="name">
         <div class="row">
@@ -23,7 +25,8 @@
         </div>
         <button class="waves-effect waves-light btn" type="submit"> Save Event </button>
     </form>
-    <div th:replace="fragments/MaterializeFragment :: materializeBodyImports"></div>
+
+    <th:block th:replace="fragments/MaterializeFragment :: materializeBodyImports"></th:block>
 </body>
 
 </html>

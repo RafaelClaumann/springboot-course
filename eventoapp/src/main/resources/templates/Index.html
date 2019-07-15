@@ -4,7 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <title>Events</title>
-    <div th:replace="fragments/MaterializeFragment :: materializeHeadImports"></div>
+    <th:block th:replace="fragments/MaterializeFragment :: materializeHeadImports"></th:block>
+    <!--<div th:replace="fragments/MaterializeFragment :: materializeHeadImports"></div>-->
 </head>
 
 <body>
@@ -39,7 +40,8 @@
             </tr>
         </tbody>
     </table>
-    <div th:replace="fragments/MaterializeFragment :: materializeBodyImports"></div>
+    <th:block th:replace="fragments/MaterializeFragment :: materializeBodyImports"></th:block>
+    <!--<div th:replace="fragments/MaterializeFragment :: materializeBodyImports"></div>-->
 </body>
 
 </html>
