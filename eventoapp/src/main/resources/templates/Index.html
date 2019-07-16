@@ -23,12 +23,14 @@
             </div>
         </nav>
     </header>
+
     <table class="container eventListStyle">
         <thead>
             <tr>
                 <th>Name</th>
                 <th>Place</th>
                 <th>Date</th>
+                <th>Delete</th>
             </tr>
         </thead>
         <tbody>
@@ -43,6 +45,13 @@
                     </td>
                     <td><span th:text="${event.getPlace()}"></span></td>
                     <td><span th:text="${#dates.format(event.getDate(), 'MM/dd/yyy')}"></span></td>
+
+                    <td>
+                        <a class="waves-effect waves-light btn-small"
+                           th:href="${(#mvc.url('EC#deleteEvent').arg(0, event.getEvent_pk())).build()}">
+                            <i class="material-icons left">delete</i>
+                        </a>
+                    </td>
                 </div>
             </tr>
         </tbody>

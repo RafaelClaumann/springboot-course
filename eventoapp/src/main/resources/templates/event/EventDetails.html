@@ -47,12 +47,19 @@
             <tr>
                 <th>Guest Name: </th>
                 <th>Guest RG:</th>
+                <th>Delete</th>
             </tr>
         </thead>
         <tbody>
             <tr th:each="guest : ${guestsHTML}">
                 <td>  <span th:text="${guest.getName()}"></span>  </td>
                 <td>  <span th:text="${guest.getRg()}"></span>  </td>
+                <td>
+                    <a class="waves-effect waves-light btn-small"
+                        th:href="${(#mvc.url('EC#deleteGuest').arg(0, guest.getGuest_pk())).build()}">
+                        <i class="material-icons left"> delete_forever </i>
+                    </a>
+                </td>
             </tr>
         </tbody>
     </table>

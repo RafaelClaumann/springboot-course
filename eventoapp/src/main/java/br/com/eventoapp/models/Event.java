@@ -3,7 +3,7 @@ package br.com.eventoapp.models;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.util.Date;
 import java.util.List;
@@ -17,20 +17,20 @@ public class Event {
     private long evn_pk;
 
     @Column(name = "evn_name", length = 50, nullable = false)
-    @NotEmpty
+    @NotBlank(message = "Please inform a name!")
     private String name;
 
     @Column(name = "evn_place", length = 100, nullable = false)
-    @NotEmpty
+    @NotBlank(message = "Please inform a place!")
     private String place;
 
     @Column(name = "evn_date", nullable = false)
     @DateTimeFormat(pattern = "yyyy-MM-dd")  // Necessary to change data format, if not, an exception will happen.
-    @NotNull
+    @NotNull(message = "Please define a date!")
     private Date date;
 
     // One event to many guests.
-    @OneToMany
+    @OneToMany(mappedBy="event", cascade=CascadeType.ALL, orphanRemoval=true)
     private List<Guest> guests;
 
     public long getEvent_pk() {
@@ -60,4 +60,9 @@ public class Event {
     public void setDate(Date date) {
         this.date = date;
     }
+
+    public List<Guest> getGuests() {
+        return guests;
+    }
+
 }

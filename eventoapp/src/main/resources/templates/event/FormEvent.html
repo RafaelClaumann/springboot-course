@@ -24,13 +24,23 @@
         </nav>
     </header>
 
+    <!--<th:block th:include="fragments/ValidationMessageFrag"></th:block>-->
 
-    <th:block th:include="fragments/ValidationMessageFrag"></th:block>
+    <form class="container formEventStyle" method="POST" th:object="${event}">
 
-    <form class="container formEventStyle" method="post">
-        Name: <input type="text" value="" name="name">
+        <div class="alert alert-succes" th:text="${messageHTML}"
+            th:if="${not #strings.isEmpty(messageHTML)}"></div>
+
+
+        <div class="alert alert-danger dangerStyle" th:if="${#fields.hasAnyErrors()}">
+            <div th:each="detailedError : ${#fields.detailedErrors()}">
+                <span th:text="${detailedError.message}"></span>
+            </div>
+        </div>
+
+        Name: <input placeholder="Event Name" type="text" value="" name="name">
         <div class="row">
-            <div class="input-field col s6"> Place: <input type="text" value="" name="place"> </div>
+            <div class="input-field col s6"> Place: <input placeholder="Event Place" type="text" value="" name="place"> </div>
             <div class="input-field col s3"> Date: <input type="date" value="" name="date"/></div>
         </div>
         <button class="waves-effect waves-light btn" type="submit"> Save Event </button>

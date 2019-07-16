@@ -1,7 +1,7 @@
 package br.com.eventoapp.models;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotBlank;
 
 @Entity
 @Table(name = "gst_guest")
@@ -12,11 +12,11 @@ public class Guest {
     private long gst_pk;
 
     @Column(name = "gst_rg", length = 50, nullable = false, unique = true)
-    @NotEmpty
+    @NotBlank(message = "please inform a RG!")
     private String rg;
 
     @Column(name = "gst_name", length = 100, nullable = false)
-    @NotEmpty
+    @NotBlank(message = "please inform a name!")
     private String name;
 
     //  Many guests to one event.

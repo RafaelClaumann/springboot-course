@@ -32,44 +32,29 @@ public class EventController {
     /*
      * This method will return a html form to be filled with event data.
      * @FormEvent.html are in /src/main/resources/templates/event
-     * see also @form(Event event).
+     * see also @saveEvent(Event event, BindingResult result, RedirectAttributes attributes).
      *
      * */
     @RequestMapping(value = "EventRegister", method = RequestMethod.GET)
-    public String form() {
-        return "event/FormEvent";
+    public ModelAndView newEvent(Event event) {
+        ModelAndView mv = new ModelAndView("event/FormEvent");
+        return mv;
     }
 
     /*
      * This method will record an event in DataBase table evn_event and redirect to @form().
-     * See also @form().
-     *
-     * se tiver algum erro, entao envia a msg e redireciona para o formulario de cadastras evento(metodo get anterior)
-     * se der tdo certo ele grava no banco e notifica com um msg.
+     * See also @newEvent(Event event).
      *
      * */
     @RequestMapping(value = "EventRegister", method = RequestMethod.POST)
-    public String form(@Valid Event event, BindingResult result, RedirectAttributes attributes) {
+    public ModelAndView saveEvent(@Valid Event event, BindingResult result, RedirectAttributes attributes) {
         if (result.hasErrors()) {
-            attributes.addFlashAttribute("messageHTML", "Verify fields.");
-            return "redirect:/EventRegister";
+            return newEvent(event);
         }
+
+        ModelAndView mv = new ModelAndView("redirect:/Events");
         eventRepositoryJpa.saveAndFlush(event);  // save event in DB
         attributes.addFlashAttribute("messageHTML", "Event added.");
-        return "redirect:/EventRegister";
-    }
-
-    /*
-     * This method will list events recorded in the database.
-     * @Index html are in /src/main/resources/templates
-     * @eventsHTML is a variable that will be accessed in @Index.html
-     *
-     * */
-    @RequestMapping(value = {"/Events", "/events"})
-    public ModelAndView listEvents() {
-        ModelAndView mv = new ModelAndView("Index");  // set current view
-        List<Event> events = eventRepositoryJpa.findAll();  // fetch all events from DB
-        mv.addObject("eventsHTML", events);  // send events list to a view
         return mv;
     }
 
@@ -102,17 +87,46 @@ public class EventController {
      *
      * */
     @RequestMapping(value = "/{event_pk}", method = RequestMethod.POST)
-    public String eventDetailsPost(@PathVariable("event_pk") long evn_pk, @Valid Guest guest,
-                                   BindingResult result, RedirectAttributes attributes) {
+    public ModelAndView eventDetailsPost(@PathVariable("event_pk") long evn_pk, @Valid Guest guest,
+                                         BindingResult result, RedirectAttributes attributes) {
         if (result.hasErrors()) {
             attributes.addFlashAttribute("messageHTML", "Verify fields.");
-            return "redirect:/{event_pk}";
+            return eventDetailsGet(evn_pk);
         }
 
+        ModelAndView mv = new ModelAndView("redirect:/{event_pk}");
         Event event = eventRepositoryJpa.getOne(evn_pk);  // fetch one event from DB
         guest.setEvent(event);  // set the event to a guest
         guestRepositoryJpa.saveAndFlush(guest);  // push this guest to DB
-        attributes.addFlashAttribute("messageHTML", "Guest added!");  // success message
-        return "redirect:/{event_pk}";
+        attributes.addFlashAttribute("messageHTML", "Guest Added!");  // success message
+        return mv;
     }
+
+
+    @RequestMapping(value = "/DeleteEvent")
+    public String deleteEvent(long evn_pk) {
+        eventRepositoryJpa.deleteById(evn_pk);
+        return "redirect:/Events";
+    }
+
+    @RequestMapping("/DeleteGuest")
+    public String deleteGuest(long gst_pk) {
+        guestRepositoryJpa.deleteById(gst_pk);
+        return "redirect:/Events";
+    }
+
+    /*
+     * This method will list events recorded in the database.
+     * @Index html are in /src/main/resources/templates
+     * @eventsHTML is a variable that will be accessed in @Index.html
+     *
+     * */
+    @RequestMapping(value = {"/Events", "/events"})
+    public ModelAndView listEvents() {
+        ModelAndView mv = new ModelAndView("Index");  // set current view
+        List<Event> events = eventRepositoryJpa.findAll();  // fetch all events from DB
+        mv.addObject("eventsHTML", events);  // send events list to a view
+        return mv;
+    }
+
 }
